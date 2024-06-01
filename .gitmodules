@@ -1,0 +1,6 @@
+[submodule "community-server"]
+	path = community-server
+	url = https://github.com/rainbow96bear/community-server.git
+[submodule "community-client"]
+	path = community-client
+	url = https://github.com/rainbow96bear/community-client.git
