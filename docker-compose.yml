@@ -1,0 +1,47 @@
+version: "3"
+networks:
+  community:
+    driver: bridge
+services:
+  community-client:
+    build:
+      context: ./community-client
+      dockerfile: Dockerfile
+    container_name: community-client
+    networks:
+      - community
+    ports:
+      - 3000:3000
+    volumes:
+      - /app/node_modules
+      - ./community-client:/app
+    stdin_open: true
+    depends_on:
+      - community-server
+
+  community-server:
+    build:
+      dockerfile: Dockerfile
+      context: ./community-server
+    container_name: community-server
+    networks:
+      - community
+    environment:
+      - NODE_ENV=production
+      - WAIT_HOSTS=community-mysql:3306
+    volumes:
+      - /app/node_modules
+      - ./community-server:/app
+    depends_on:
+      - community-mysql
+
+  community-mysql:
+    image: mysql:5.7
+    container_name: community-mysql
+    networks:
+      - community
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DBNAME}
