@@ -7,6 +7,11 @@ services:
     build:
       context: ./community-client
       dockerfile: Dockerfile
+      args:
+        REACT_APP_KAKAO_REDIRECT_URI: ${REACT_APP_KAKAO_REDIRECT_URI}
+        REACT_APP_KAKAO_RESTFUL_API_KEY: ${REACT_APP_KAKAO_RESTFUL_API_KEY}
+        REACT_APP_BASE_PROFILE_IMG: ${REACT_APP_BASE_PROFILE_IMG}
+        NGINX_CONF: ${NGINX_CONFIG_FILE}
     container_name: community-client
     networks:
       - community
@@ -29,13 +34,15 @@ services:
     ports:
       - 8000:8000
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=docker_compose
       - WAIT_HOSTS=community-mysql:3306
     volumes:
       - /app/node_modules
       - ./community-server:/app
     depends_on:
       - community-mysql
+    env_file:
+      - ./community-server/.env
 
   community-mysql:
     image: mysql:5.7
