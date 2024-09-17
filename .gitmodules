@@ -4,3 +4,9 @@
 [submodule "community-client"]
 	path = community-client
 	url = https://github.com/rainbow96bear/community-client.git
+[submodule "web3-client"]
+	path = web3-client
+	url = https://github.com/rainbow96bear/web3-client.git
+[submodule "web3-server"]
+	path = web3-server
+	url = https://github.com/rainbow96bear/web3-server.git
